@@ -1,52 +1,77 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta name ="viewport" content ="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Random Password Generator</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
-        <h1>Generate a<br><span>Random Password</span></h1>
+        <h1>Generate <br><span>Random Password</span></h1>
+        <label for="size">Enter size: </label>
+        <input id="size" type="number" placeholder="password size(4-25)" value="4">
+        <p id="demo"></p>
+
         <div class="display">
-            <input type="text" id = "password" placeholder="Password">
+            <textarea  id="password" placeholder="Password"></textarea>
             <img src="images/copy.png" onclick="copyPassword()">
         </div>
-        <button onclick="createPassword()"><img src="images/generate.png" >Generate Password</button>
+        <button onclick="createPassword()"><img src="images/generate.png">Generate Password</button>
     </div>
 
-<script>
+    <script>
 
-    const passwordBox = document.getElementById("password");
-    const lenght = 15;
-
-    const upperCase ="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const lowerCase ="abcdefghijklmnopqrstuvwxyz";
-    const number = "0123456789";
-    const symbol ="$&+,:;=?@#|'<>.^*()%!-[]{}";
-    const allChars = upperCase + lowerCase + number + symbol;
+        const passwordBox = document.getElementById("password");
 
 
-    function createPassword(){
-        let password ="";
-        password += upperCase[Math.floor(Math.random() * upperCase.length)];
-        password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
-        password += number[Math.floor(Math.random() * number.length)];
-        password += symbol[Math.floor(Math.random() * symbol.length)];
+        const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const lowerCase = "abcdefghijklmnopqrstuvwxyz";
+        const number = "0123456789";
+        const symbol = "$&+,:;=?@#|'<>.^*()%!-[]{}";
+        const allChars = upperCase + lowerCase + number + symbol;
 
-        while(lenght>password.length){
-            password += allChars[Math.floor(Math.random() * allChars.length)];
+
+        function createPassword() {
+            var x = document.getElementById("size");
+            var defaultVal = x.defaultValue;
+            var currentVal = x.value;
+            var lenght;
+            if (currentVal <= 4)
+                lenght = defaultVal;
+            else
+                lenght = currentVal;
+
+            if (lenght <= 26) {
+
+                let password = "";
+                password += upperCase[Math.floor(Math.random() * upperCase.length)];
+                password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
+                password += number[Math.floor(Math.random() * number.length)];
+                password += symbol[Math.floor(Math.random() * symbol.length)];
+
+                while (lenght > password.length) {
+                    password += allChars[Math.floor(Math.random() * allChars.length)];
+                }
+                document.getElementById("demo").innerHTML ="";
+                passwordBox.value = password;
+            }
+            else{
+                password ="";
+                passwordBox.value = password;
+                myFunction();
+            }
+        }
+        function myFunction() {
+          document.getElementById("demo").innerHTML = " ⚠️Enter valid size(4-25)";
+        }
+        function copyPassword() {
+            passwordBox.select();
+            document.execCommand("copy");
         }
 
-        passwordBox.value = password;
-    }
-
-    function copyPassword(){
-        passwordBox.select();
-        document.execCommand("copy");
-    }
-
-</script>
+    </script>
 </body>
 
 </html>
